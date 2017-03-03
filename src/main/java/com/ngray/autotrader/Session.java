@@ -1,8 +1,12 @@
 package com.ngray.autotrader;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -123,6 +127,23 @@ public final class Session {
 		} catch (IOException e) {
 			throw new SessionException(e);
 		}		
+	}
+	
+	/**
+	 * Return a list of the headers needed to submit requests using this session
+	 * This will be one of the list of headers in SessionConstants plus the CST and X-SECURITY-TOKEN
+	 * headers obtained on login
+	 * @return
+	 */
+	public List<Header> getSessionHeaders() {
+		
+		final List<Header> headers = new ArrayList<>(SessionConstants.getHeaderList(isLive));
+		headers.addAll(sessionHeaders);
+		return headers;
+	}
+	
+	public boolean getIsLive() {
+		return isLive;
 	}
 
 }
