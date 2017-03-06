@@ -1,6 +1,5 @@
 package com.ngray.autotrader;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import javax.swing.JFrame;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -19,7 +17,7 @@ import org.apache.commons.cli.CommandLine;
 
 import com.ngray.autotrader.exception.SessionException;
 import com.ngray.autotrader.markets.MarketNode;
-import com.ngray.autotrader.ui.LoginDialog;
+
 
 
 
@@ -38,10 +36,6 @@ public final class AutoTrader {
 	 */
 	private static final Logger logger = Logger.getLogger("AutoTrader");
 	
-	/**
-	 * The application session after successful login
-	 */
-	private static Session session = null;
 	
 	/**
 	 * Application entry point
@@ -75,30 +69,11 @@ public final class AutoTrader {
 			runAsGUI();
 		}
 	}
-	
-	public static void setSession(Session session) {
-		AutoTrader.session = session;
-	}
-	
-	public static Session getSession() {
-		return session;
-	}
+
 	
 	private static void runAsGUI() {
-		JFrame parent = new JFrame("AutoTrader");
-		LoginDialog login = new LoginDialog(parent);
-		login.show();
 		
-		if(login.getSucceeded()) {		
-			// build the main GUI here
-		} else if (login.getCancelled()) {
-			parent.dispose();
-		}
-		
-		/*
-		parent.setVisible(true);
-		while(true) {}
-		*/
+		throw new RuntimeException("Not implemented");
 	}
 
 	private static void runAsConsoleApp(Configuration config) {

@@ -1,9 +1,5 @@
 package com.ngray.autotrader;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
-
 import com.ngray.autotrader.exception.SessionException;
 
 public interface RestAPIAction {
