@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.ngray.autotrader.exception.SessionException;
 
+
 /**
  * Session class
  * This class is the main class of the AutoTrader application
@@ -30,6 +31,13 @@ public final class Session {
 	private final List<Header> sessionHeaders;
 	private final boolean isLive;
 	
+	/**
+	 * Create a new Session with the supplied Session headers
+	 * The session headers will include keys identifying the session
+	 * which must be supplied with every subsequent REST action after login
+	 * @param sessionHeaders
+	 * @param isLive
+	 */
 	private Session(List<Header> sessionHeaders, boolean isLive) {
 		this.sessionHeaders = sessionHeaders;
 		this.isLive = isLive;
@@ -138,8 +146,12 @@ public final class Session {
 		return headers;
 	}
 	
+	/**
+	 * Return true if the Session connects to a live account
+	 * false if connects to a demo account
+	 * @return
+	 */
 	public boolean getIsLive() {
 		return isLive;
 	}
-
 }

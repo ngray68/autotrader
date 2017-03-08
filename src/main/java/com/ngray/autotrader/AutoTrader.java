@@ -1,8 +1,9 @@
 package com.ngray.autotrader;
 
+import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
 
 import com.ngray.autotrader.exception.SessionException;
-import com.ngray.autotrader.markets.MarketNode;
+import com.ngray.autotrader.ui.AutoTraderUI;
 
 
 
@@ -66,20 +67,38 @@ public final class AutoTrader {
 		if (config.IsConsoleApp) {
 			runAsConsoleApp(config);
 		} else {
-			runAsGUI();
+			runAsGUI(config);
 		}
+	}
+	
+	private static Session login(Configuration config) throws SessionException {		
+		return	Session.login(config.Username, config.Password, config.IsEncrypted, config.IsLive);		
 	}
 
 	
-	private static void runAsGUI() {
-		
-		throw new RuntimeException("Not implemented");
+	private static void runAsGUI(Configuration config) {
+		try {
+			final Session session = login(config);
+			EventQueue.invokeLater(()-> {
+				try {
+					new AutoTraderUI(session).setVisible(true);
+				} catch (HeadlessException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				} catch (SessionException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				}
+			});
+		}
+		catch (SessionException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			return;
+		}
 	}
 
 	private static void runAsConsoleApp(Configuration config) {
 		Session session = null;
 		try {
-			session = Session.login(config.Username, config.Password, config.IsEncrypted, config.IsLive);
+			session = login(config);
 		}
 		catch (SessionException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -87,16 +106,10 @@ public final class AutoTrader {
 		}
 		
 		if (session != null) {
-			// add code here to do stuff with the session
-			try {
-				MarketNode rootNode = MarketNode.getRootNode(session);
-				List<MarketNode> subNodes = rootNode.getSubNodes();
-				for (Iterator<MarketNode> iter = subNodes.iterator(); iter.hasNext(); ) {
-					iter.next().getSubNodesAndMarkets(session);
-				}
-			} catch (SessionException e) {
-				getLogger().log(Level.SEVERE, "Error getting market nodes", true);
-			}
+			// add code here to do stuff with the Console	
+			//ConsoleUI ui = new ConsoleUI(session);
+			//ui.run();
+			
 			
 		}
 		

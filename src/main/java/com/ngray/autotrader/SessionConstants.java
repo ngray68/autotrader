@@ -11,8 +11,8 @@ public final class SessionConstants {
 	private static final String PROTOCOL = "https://";
 	private static final String DEMO_GATEWAY = "demo-api.ig.com/gateway/deal";
 	private static final String LIVE_GATEWAY = "api.ig.com/gateway/deal";
-	
-	private static final String DEMO_API_KEY = "dummykey"; // replace with real key locally
+	private static final String DEMO_API_KEY = "4b17a7696dd2b7bb0ea793c3bd734c8f78b5b186";
+	//private static final String DEMO_API_KEY = "dummykey"; // replace with real key locally
 	private static final String LIVE_API_KEY = "dummykey"; // replace with real key locally
 	
 	// TODO: import api keys from user supplied config
